@@ -20,6 +20,8 @@ public abstract class Turret : MonoBehaviour
     public int Cost { get =>_turetInfo.Cost; }
     public ScriptableTurret Upgrade { get => _turetInfo.Upgrade; }
     public Sprite Sprite { get => _turetInfo.TurretSprite; }
+    public Monster Target { get => _target;}
+    public ProjectileBehaviour ProjectilePrefav { get => _turetInfo.Projectile; }
     // Start is called before the first frame update
 
     void Start()

@@ -12,7 +12,7 @@ public class ScriptableTurret : ScriptableObject
     [SerializeField] private String _description = "Lorem ipsum";
     [SerializeField] private ScriptableTurret _upgrade;
     [SerializeField] private Sprite _turretSprite;
-
+    [SerializeField] private ProjectileBehaviour _projectilePrefab;
     public float Range { get => _range; }
     public int Damage { get => _damage; }
     public float FireRate { get => _fireRate; }
@@ -20,4 +20,5 @@ public class ScriptableTurret : ScriptableObject
     public string Description { get => _description; }
     public ScriptableTurret Upgrade { get => _upgrade; }
     public Sprite TurretSprite { get => _turretSprite; }
+    public ProjectileBehaviour Projectile { get => _projectilePrefab; }
 }
