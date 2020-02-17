@@ -26,7 +26,7 @@ public class PathFinder
 
     public Stack<Vertex> FindBestPath()
     {
-        SortedSet<Vertex> openList = new SortedSet<Vertex>(new VertexComparer());
+        List<Vertex> openList = new List<Vertex>();
         HashSet<Vertex> closedSet = new HashSet<Vertex>();
         openList.Add(_startVert);
         Stack<Vertex> path = new Stack<Vertex>();
@@ -34,7 +34,14 @@ public class PathFinder
         //openList.Add(0, copiedVertices[from.Index]);
         while (openList.Count > 0)
         {
-            current = openList.First();
+            current = openList[0];
+            foreach(var vertex in openList)
+            {
+                if (vertex.FullCost < current.FullCost || (vertex.FullCost==current.FullCost && vertex.HeuristicValue<current.HeuristicValue ))
+                {
+                    current = vertex;
+                }
+            }
             openList.Remove(current);
             closedSet.Add(current);
 
@@ -43,9 +50,14 @@ public class PathFinder
                 return RetracePath();
 
             }
+            Debug.Log(current.Index);
 
             foreach (var neighbor in current.Neightbours)
             {
+                if (neighbor.Index == new Vector2(15, 2))
+                {
+                    Debug.Log("a");
+                }
                 if (neighbor.IsOccupied || closedSet.Contains(neighbor))
                     continue;
                 if (!openList.Contains(neighbor) || IsCurrentPathWorse(current, neighbor))
@@ -53,14 +65,22 @@ public class PathFinder
                     neighbor.CurrentPathLength = current.CurrentPathLength + neighbor.PathValue;
                     neighbor.HeuristicValue = CalculateHeuristicCost(neighbor);
                     neighbor.Partent = current;
+
+                    ////Contains use comparer we need to add equality comparer
                     if(!openList.Contains(neighbor))
                         openList.Add(neighbor);
                 }
             }
+            foreach (var item in openList)
+            {
+                DrawCube(item.WorldPosition, Color.red, new Vector3(1, 1, 1));
+            }
+            Debug.Break();
         }
 
         return null;
     }
+
 
     private Stack<Vertex> RetracePath()
     {
@@ -78,10 +98,26 @@ public class PathFinder
         return neighbor.CurrentPathLength > current.CurrentPathLength + neighbor.PathValue;
     }
 
-    private static void CalculateFullValue(float pathLength, Vertex vertexToCalculate)
+    public static void DrawCube(Vector3 pos, Color col, Vector3 scale)
     {
+        Vector3 halfScale = scale * 0.5f;
 
+        Vector3[] points = new Vector3[]
+        {
+            pos + new Vector3(halfScale.x,      halfScale.y,    halfScale.z),
+            pos + new Vector3(-halfScale.x,     halfScale.y,    halfScale.z),
+            pos + new Vector3(-halfScale.x,     -halfScale.y,   halfScale.z),
+            pos + new Vector3(halfScale.x,      -halfScale.y,   halfScale.z),
+            pos + new Vector3(halfScale.x,      halfScale.y,    -halfScale.z),
+            pos + new Vector3(-halfScale.x,     halfScale.y,    -halfScale.z),
+            pos + new Vector3(-halfScale.x,     -halfScale.y,   -halfScale.z),
+            pos + new Vector3(halfScale.x,      -halfScale.y,   -halfScale.z),
+        };
+
+        Debug.DrawLine(points[0], points[1], col);
+        Debug.DrawLine(points[1], points[2], col);
+        Debug.DrawLine(points[2], points[3], col);
+        Debug.DrawLine(points[3], points[0], col);
     }
-
 }
 

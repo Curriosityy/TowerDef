@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using UnityEditor;
 using UnityEngine;
 
+[Serializable]
 public class Vertex
 {
     [SerializeField] Vector2 _index;

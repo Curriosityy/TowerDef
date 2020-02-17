@@ -13,7 +13,8 @@ public class GunTurret : Turret
         var projectile = Instantiate(ProjectilePrefav);
         projectile.transform.position = transform.position;
         projectile.transform.rotation = transform.rotation;
-        projectile.GetComponent<ProjectileBehaviour>().Initialize(Target);
+        projectile.GetComponent<ProjectileBehaviour>().Initialize(Target,Damage);
+        
     }
 }
 

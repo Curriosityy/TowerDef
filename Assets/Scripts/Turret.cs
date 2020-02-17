@@ -28,6 +28,7 @@ public abstract class Turret : MonoBehaviour
     {
         _targets = new List<Monster>();
         SetSprite();
+        GetComponent<CircleCollider2D>().radius = Range;
     }
 
     private void SetSprite()

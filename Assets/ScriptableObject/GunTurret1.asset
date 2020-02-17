@@ -15,7 +15,9 @@ MonoBehaviour:
   _range: 2
   _damage: 1
   _fireRate: 0.5
-  _cost: 100
+  _cost: 1
   _description: Fast attack, but low damage
   _upgrade: {fileID: 0}
   _turretSprite: {fileID: 21300000, guid: a777cd0f32e3365408eb0548e5a893b7, type: 3}
+  _projectilePrefab: {fileID: 4925122020106394458, guid: dc2f850118dc87e4d802fcb667376a7c,
+    type: 3}

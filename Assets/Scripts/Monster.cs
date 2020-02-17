@@ -28,6 +28,7 @@ public class Monster : MonoBehaviour,IDamagable
     private void Die()
     {
         _isDead = true;
+        GetComponent<Collider2D>().enabled = false;
         StopAllCoroutines();
         Destroy(gameObject,1f);
     }
@@ -48,7 +49,6 @@ public class Monster : MonoBehaviour,IDamagable
 
     public IEnumerator MoveToExit()
     {
-        Debug.Log("Monster start to move");
         Vertex currentTarget;
         while(_path.Count!=0)
         {

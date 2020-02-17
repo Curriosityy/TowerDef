@@ -17,16 +17,27 @@ public class PathOrganizer : MonoBehaviour
     }
     void Start()
     {
-        
-        _path = _pathFinder.FindBestPath();
-        Vector3[] positions = _path.Select(e => e.WorldPosition).ToArray();
-        _lr.positionCount = positions.Length;
-        _lr.SetPositions(positions);
-        
+        SetNewPath();
     }
+
+    public bool SetNewPath()
+    {
+        var path = _pathFinder.FindBestPath();
+        if(path!=null)
+        {
+            _path = _pathFinder.FindBestPath();
+            Vector3[] positions = _path.Select(e => e.WorldPosition).ToArray();
+            _lr.positionCount = positions.Length;
+            _lr.SetPositions(positions);
+            return true;
+        }
+        return false;
+
+    }
+
     public Stack<Vertex> GetPath()
     {
-        return _pathFinder.FindBestPath();
+        return new Stack<Vertex>(_path.Reverse());
     }
     // Update is called once per frame
     void Update()

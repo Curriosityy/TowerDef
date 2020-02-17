@@ -16,7 +16,6 @@ public class GridCreator : MonoBehaviour
     [SerializeField] Color _freeVertex, _ocupiedVertex;
     [SerializeField] Transform _mapHolder;
     public Dictionary<Vector3, Vertex> Grid { get => _grid; set => _grid = value; }
-
     private void Awake()
     {
         _worldGridSize = new Vector2(_widthSize / 2, _heigthSize / 2);
@@ -38,6 +37,7 @@ public class GridCreator : MonoBehaviour
     {
         Vertex vert = null;
         Vertex connectTo = null;
+
         for (int j = 0; j < _heigthSize; j++)
         {
             for (int i = 0; i < _widthSize; i++)
@@ -92,6 +92,7 @@ public class GridCreator : MonoBehaviour
                     }
                 }
                 vert = new Vertex(new Vector2(i, j), VertType.middle, pos, isOccupied,_buildingVertexPrefab,_freeVertex,_ocupiedVertex,_mapHolder);
+
                 _grid.Add(pos, vert);
                 _grid2[i, j] = vert;
             }
