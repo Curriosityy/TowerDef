@@ -66,16 +66,10 @@ public class PathFinder
                     neighbor.HeuristicValue = CalculateHeuristicCost(neighbor);
                     neighbor.Partent = current;
 
-                    ////Contains use comparer we need to add equality comparer
                     if(!openList.Contains(neighbor))
                         openList.Add(neighbor);
                 }
             }
-            foreach (var item in openList)
-            {
-                DrawCube(item.WorldPosition, Color.red, new Vector3(1, 1, 1));
-            }
-            Debug.Break();
         }
 
         return null;
