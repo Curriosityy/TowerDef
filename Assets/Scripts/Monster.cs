@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Monster : MonoBehaviour,IDamagable
+public class Monster : MonoBehaviour,IDamagable,ISubject
 {
     [SerializeField] int _hp=1;
     [SerializeField] int _damage=1;
@@ -13,11 +13,16 @@ public class Monster : MonoBehaviour,IDamagable
     [SerializeField] int _money = 1;
     public bool IsDead { get => _isDead; }
     Player _player;
+    List<IObserver> _observers;
+    public void Awake()
+    {
+        _observers = new List<IObserver>();
+    }
     public void DealDamage(int damage)
     {
         //Spawn dmg text;
         _hp -= damage;
-        if(_hp <= 0)
+        if(_hp <= 0 && !_isDead)
         {
             ///Spawn money text +1;
             _player.Money += _money;
@@ -30,6 +35,7 @@ public class Monster : MonoBehaviour,IDamagable
         _isDead = true;
         GetComponent<Collider2D>().enabled = false;
         StopAllCoroutines();
+        Notify();
         Destroy(gameObject,1f);
     }
 
@@ -40,10 +46,11 @@ public class Monster : MonoBehaviour,IDamagable
         Die();
     }
 
-    public void InitializeMinion(Stack<Vertex> path, Player player)
+    public void InitializeMinion(Stack<Vertex> path, Player player,IObserver observer)
     {
         _path = path;
         _player = player;
+        Attach(observer);
         StartCoroutine("MoveToExit");
     }
 
@@ -71,5 +78,23 @@ public class Monster : MonoBehaviour,IDamagable
         var diff = currentTarget.WorldPosition - transform.position;
         float rot_z = Mathf.Atan2(diff.y, diff.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.Euler(0f, 0f, rot_z);
+    }
+
+    public void Attach(IObserver observer)
+    {
+        _observers.Add(observer);
+    }
+
+    public void Detach(IObserver observer)
+    {
+        _observers.Remove(observer);
+    }
+
+    public void Notify()
+    {
+        foreach(var observer in _observers)
+        {
+            observer.Update();
+        }
     }
 }

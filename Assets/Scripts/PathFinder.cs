@@ -48,16 +48,10 @@ public class PathFinder
             if(current==_endVertex)
             {
                 return RetracePath();
-
             }
-            Debug.Log(current.Index);
 
             foreach (var neighbor in current.Neightbours)
             {
-                if (neighbor.Index == new Vector2(15, 2))
-                {
-                    Debug.Log("a");
-                }
                 if (neighbor.IsOccupied || closedSet.Contains(neighbor))
                     continue;
                 if (!openList.Contains(neighbor) || IsCurrentPathWorse(current, neighbor))

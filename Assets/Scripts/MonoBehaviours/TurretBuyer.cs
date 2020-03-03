@@ -17,10 +17,11 @@ public class TurretBuyer : MonoBehaviour
     GridCreator _gridCreator;
     Player _player;
     Turret _turret;
+    [SerializeField] Animator _battleControler;
     // Start is called before the first frame update
     void Start()
     {
-        _graphicRaycaster=FindObjectOfType<GraphicRaycaster>();
+        _graphicRaycaster = FindObjectOfType<GraphicRaycaster>();
         _gridCreator = FindObjectOfType<GridCreator>();
         _player = GetComponent<Player>();
         _pathOrganizer = FindObjectOfType<PathOrganizer>();
@@ -55,7 +56,7 @@ public class TurretBuyer : MonoBehaviour
             _graphicRaycaster.Raycast(pointerData, results);
             results = results.Where(e => e.gameObject.GetComponent<InfoPanel>() != null).ToList();
             //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
-            if(results.Count>0)
+            if (results.Count > 0)
             {
                 _buildingMap.SetActive(true);
                 _buildingMode = true;
@@ -64,7 +65,7 @@ public class TurretBuyer : MonoBehaviour
                 _turretImage.sprite = _turret.Sprite;
             }
         }
-        if(Input.GetMouseButtonDown(1))
+        if (Input.GetMouseButtonDown(1))
         {
             _buildingMode = false;
             _buildingMap.SetActive(false);
@@ -74,17 +75,22 @@ public class TurretBuyer : MonoBehaviour
 
     private void BuildTurret(Vertex node)
     {
-        node.IsOccupied = true;
-        if (_pathOrganizer.SetNewPath())
+        if(node.IsOccupied || node.HeuristicValue==0)
         {
-            _player.Money -= _turret.Cost;
-            var turret = Instantiate(_turret.gameObject);
-            turret.transform.position = node.WorldPosition;
             return;
         }
-        node.IsOccupied = false;
-
-
+        node.IsOccupied = true;
+        if (_battleControler.GetCurrentAnimatorStateInfo(0).IsName("BuildingState"))
+        {
+            if (!_pathOrganizer.SetNewPath())
+            {
+                node.IsOccupied = false;
+                return;
+            }
+        }
+        _player.Money -= _turret.Cost;
+        var turret = Instantiate(_turret.gameObject);
+        turret.transform.position = node.WorldPosition;
     }
 
     private void SetImagePos()

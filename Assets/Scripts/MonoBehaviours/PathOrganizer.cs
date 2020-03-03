@@ -20,19 +20,28 @@ public class PathOrganizer : MonoBehaviour
         SetNewPath();
     }
 
+    public bool IsNewPathExist()
+    {
+        var path = _pathFinder.FindBestPath();
+        if (path != null)
+        {
+            return true;
+        }
+        return false;
+    }
+
     public bool SetNewPath()
     {
         var path = _pathFinder.FindBestPath();
-        if(path!=null)
+        if (path != null)
         {
-            _path = _pathFinder.FindBestPath();
+            _path = path;
             Vector3[] positions = _path.Select(e => e.WorldPosition).ToArray();
             _lr.positionCount = positions.Length;
             _lr.SetPositions(positions);
             return true;
         }
         return false;
-
     }
 
     public Stack<Vertex> GetPath()
