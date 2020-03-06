@@ -36,7 +36,7 @@ public class Vertex
     }
     public List<Vertex> Neightbours { get => _neightbours; }
     public Vector3 WorldPosition { get => _worldPosition; set => _worldPosition = value; }
-    public VertType VertType { get => _vertType; }
+    public VertType VertType { get => _vertType; set => _vertType = value; }
 
     public float FullCost
     {

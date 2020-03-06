@@ -17,6 +17,9 @@ public class PathFinder
         _mapCreator = GameObject.FindObjectOfType<GridCreator>();
         _startVert = _mapCreator.WorldPositionToNode(startPos);
         _endVertex = _mapCreator.WorldPositionToNode(endPos);
+        _startVert.VertType = VertType.input;
+        _endVertex.VertType = VertType.output;
+
     }
 
     private float CalculateHeuristicCost(Vertex vertex)

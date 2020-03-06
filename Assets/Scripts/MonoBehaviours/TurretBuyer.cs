@@ -41,6 +41,7 @@ public class TurretBuyer : MonoBehaviour
                     if (_player.Money >= _turret.Cost && !node.IsOccupied)
                     {
                         BuildTurret(node);
+                        DisableBuilding();
                     }
                 }
             }
@@ -58,24 +59,39 @@ public class TurretBuyer : MonoBehaviour
             //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
             if (results.Count > 0)
             {
-                _buildingMap.SetActive(true);
-                _buildingMode = true;
-                _turretImage.enabled = true;
-                _turret = results[0].gameObject.GetComponent<InfoPanel>().Turret;
-                _turretImage.sprite = _turret.Sprite;
+                EnableBuilding(results[0].gameObject.GetComponent<InfoPanel>().Turret);
             }
         }
         if (Input.GetMouseButtonDown(1))
         {
-            _buildingMode = false;
-            _buildingMap.SetActive(false);
-            _turretImage.enabled = false;
+            DisableBuilding();
         }
+    }
+
+    private void EnableBuilding(Turret result)
+    {
+        if (_player.Money >= result.Cost)
+        {
+            _buildingMap.SetActive(true);
+            _buildingMode = true;
+            _turretImage.enabled = true;
+            _turret = result;
+            _turretImage.sprite = _turret.Sprite;
+        }
+    }
+
+    private void DisableBuilding()
+    {
+        _buildingMode = false;
+        if (_buildingMap != null)
+            _buildingMap.SetActive(false);
+        if(_turretImage!=null)
+        _turretImage.enabled = false;
     }
 
     private void BuildTurret(Vertex node)
     {
-        if(node.IsOccupied || node.HeuristicValue==0)
+        if (node.IsOccupied || node.VertType != VertType.middle)
         {
             return;
         }
@@ -114,4 +130,9 @@ public class TurretBuyer : MonoBehaviour
         Vertex node = _gridCreator.WorldPositionToNode(mousePos);
         return node;
     }
+    private void OnDisable()
+    {
+        DisableBuilding();
+    }
 }
+
