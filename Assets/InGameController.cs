@@ -5,7 +5,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 [RequireComponent(typeof(Player),typeof(TurretBuyer))]
-public class InGamecontroller : MonoBehaviour
+public class InGameController : MonoBehaviour
 {
     TurretBuyer _turretBuyer;
     GraphicRaycaster _graphicRaycaster;

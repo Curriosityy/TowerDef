@@ -2,31 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-public class SceneChanger : MonoBehaviour
+public class SceneChanger : Singleton<SceneChanger>
 {
-    private static SceneChanger _instance;
-
-    public static SceneChanger Instance {
-        get
-        {
-            if(_instance==null)
-            {
-                var gO = new GameObject("(Singleton)SceneChanger");
-                
-                _instance= gO.AddComponent<SceneChanger>();
-            }
-            return _instance;
-        }
-    }
-
-    private void Awake()
-    {
-        if(Instance!=null)
-        {
-            Destroy(gameObject);
-        }
-        DontDestroyOnLoad(gameObject);
-    }
 
     public void ChangeScreen(string sceneName, LoadSceneMode loadSceneMode)
     {

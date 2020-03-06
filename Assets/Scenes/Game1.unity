@@ -11661,6 +11661,8 @@ GameObject:
   - component: {fileID: 1509547004}
   - component: {fileID: 1509547003}
   - component: {fileID: 1509547005}
+  - component: {fileID: 1509547007}
+  - component: {fileID: 1509547006}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -11681,7 +11683,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: 15
-  _money: 1000
+  _money: 120
 --- !u!4 &1509547004
 Transform:
   m_ObjectHideFlags: 0
@@ -11711,6 +11713,30 @@ MonoBehaviour:
   _buildingMap: {fileID: 1771770317}
   _turretImage: {fileID: 252152850}
   _battleControler: {fileID: 201775497}
+--- !u!114 &1509547006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509547002}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b1f167f32e1cae14abbb9173e2529dee, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1509547007
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1509547002}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6f1994508bfe3784189c61615d3ad5b7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &1513187661
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 public class WaveControler : MonoBehaviour
 {
     WaveSpawner _monsterSpawner;
-    [SerializeField] List<Wave> _waves;
+    [SerializeField] List<Wave> _waves = null;
     int _waveCouner = 0;
 
     public int WaveCouner { get => _waveCouner; }

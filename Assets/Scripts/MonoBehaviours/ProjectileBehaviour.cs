@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(Collider2D),typeof(Rigidbody2D))]
 public abstract class ProjectileBehaviour: MonoBehaviour
 {
-    [SerializeField] float _speed;
+    [SerializeField] float _speed=0;
     protected int _dmg;
     protected Monster _target;
     bool _hited = false;

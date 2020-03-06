@@ -9,7 +9,10 @@ public class GameOverStateBehaviour : StateMachineBehaviour
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         animator.GetComponent<PanelLinker>().GameOverPanel.SetActive(true);
-        FindObjectOfType<InGamecontroller>().gameObject.SetActive(false);
+        var gO = FindObjectOfType<Player>().gameObject;
+        gO.GetComponent<InGameController>().enabled = false;
+        gO.GetComponent<EndGameController>().enabled = true;
+        FindObjectOfType<EndGameController>().gameObject.SetActive(true);
         var build = GameObject.FindGameObjectWithTag("Building");
         if(build!=null)
             build.SetActive(false);
