@@ -18,6 +18,10 @@ public class TurretBuyer : MonoBehaviour
     Player _player;
     Turret _turret;
     [SerializeField] Animator _battleControler;
+
+    public bool BuildingMode { get => _buildingMode;}
+    public Turret Turret { get => _turret; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,48 +31,7 @@ public class TurretBuyer : MonoBehaviour
         _pathOrganizer = FindObjectOfType<PathOrganizer>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        if (_buildingMode)
-        {
-            SetImagePos();
-            if (Input.GetMouseButtonDown(0))
-            {
-                Vertex node = GetNodeOnMousePosition();
-                if (node != null)
-                {
-                    if (_player.Money >= _turret.Cost && !node.IsOccupied)
-                    {
-                        BuildTurret(node);
-                        DisableBuilding();
-                    }
-                }
-            }
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            //Set up the new Pointer Event
-            var pointerData = new PointerEventData(EventSystem.current);
-            var results = new List<RaycastResult>();
-
-            //Raycast using the Graphics Raycaster and mouse click position
-            pointerData.position = Input.mousePosition;
-            _graphicRaycaster.Raycast(pointerData, results);
-            results = results.Where(e => e.gameObject.GetComponent<InfoPanel>() != null).ToList();
-            //For every result returned, output the name of the GameObject on the Canvas hit by the Ray
-            if (results.Count > 0)
-            {
-                EnableBuilding(results[0].gameObject.GetComponent<InfoPanel>().Turret);
-            }
-        }
-        if (Input.GetMouseButtonDown(1))
-        {
-            DisableBuilding();
-        }
-    }
-
-    private void EnableBuilding(Turret result)
+    public void EnableBuilding(Turret result)
     {
         if (_player.Money >= result.Cost)
         {
@@ -80,7 +43,7 @@ public class TurretBuyer : MonoBehaviour
         }
     }
 
-    private void DisableBuilding()
+    public void DisableBuilding()
     {
         _buildingMode = false;
         if (_buildingMap != null)
@@ -89,7 +52,7 @@ public class TurretBuyer : MonoBehaviour
         _turretImage.enabled = false;
     }
 
-    private void BuildTurret(Vertex node)
+    public void BuildTurret(Vertex node)
     {
         if (node.IsOccupied || node.VertType != VertType.middle)
         {
@@ -109,7 +72,7 @@ public class TurretBuyer : MonoBehaviour
         turret.transform.position = node.WorldPosition;
     }
 
-    private void SetImagePos()
+    public void SetImagePos()
     {
         Vertex node = GetNodeOnMousePosition();
         Vector3 pos = Vector3.zero;
@@ -124,15 +87,12 @@ public class TurretBuyer : MonoBehaviour
         _turretImage.transform.position = pos;
     }
 
-    private Vertex GetNodeOnMousePosition()
+    public Vertex GetNodeOnMousePosition()
     {
         var mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         Vertex node = _gridCreator.WorldPositionToNode(mousePos);
         return node;
     }
-    private void OnDisable()
-    {
-        DisableBuilding();
-    }
+
 }
 
